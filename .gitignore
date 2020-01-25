@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+#project files/folder to ignore
+Cloud_Functions/functions/node_modules/
+Robot/lib/Key.json
+Robot/lib/__pycache__/
