@@ -1,8 +1,13 @@
+# This is where we keep all the controls for the motors. 
+# We have a different function for each of the controls. 
+# When Firebase datapoint is changed the corrisponding 
+# function will be called for the robot to complete. 
+
 import RPi.GPIO as GPIO
 from time import sleep
 
 class MotorControl:
-    def __init__(self):
+    def __init__(self):             
         GPIO.setmode(GPIO.BOARD)
 
         self.Motor1A = 16
@@ -21,7 +26,8 @@ class MotorControl:
         GPIO.setup(self.Motor2B,GPIO.OUT)
         GPIO.setup(self.Motor2E,GPIO.OUT)
 
-    def Forward(self, driveFor):
+    #This is the function that tells the robot to move forward
+    def Forward(self, driveFor):                
         print("Moving forward")
         GPIO.output(self.Motor1A,GPIO.HIGH)
         GPIO.output(self.Motor1B,GPIO.LOW)
@@ -33,7 +39,7 @@ class MotorControl:
         self.Reset1()
         self.Reset2()
         
-    
+    #This is the function that tells the robot to move backward
     def Backward(self, driveFor):
         print("Moving Back")
         GPIO.output(self.Motor1A,GPIO.LOW)
@@ -46,20 +52,16 @@ class MotorControl:
         self.Reset1()
         self.Reset2()
 
-        
+    #This is the function stops the right motors from moving
     def Reset1(self):
         print("Reset self.Motor 1")
-        # GPIO.setup(self.Motor1A,GPIO.OUT)
-        # GPIO.setup(self.Motor1B,GPIO.OUT)
         GPIO.output(self.Motor1E,GPIO.OUT)
-        
+    #This is the function stops the left motors from moving    
     def Reset2(self):
         print("Reset self.Motor 2")
-        # GPIO.setup(self.Motor2A,GPIO.OUT)
-        # GPIO.setup(self.Motor2B,GPIO.OUT)
         GPIO.output(self.Motor2E,GPIO.OUT)
     
-
+    #This is the function that tells the robot to turn right
     def Right(self, driveFor):
         print("Moving right")
         GPIO.output(self.Motor1A,GPIO.LOW)
@@ -72,6 +74,7 @@ class MotorControl:
         self.Reset1()
         self.Reset2()
 
+    #This is the function that tells the robot to turn left
     def Left(self, driveFor):
         print("Moving left")
         GPIO.output(self.Motor1A,GPIO.HIGH)
@@ -83,6 +86,7 @@ class MotorControl:
         sleep(driveFor)
         self.Reset1()
         self.Reset2()
+
 
     def MotorCleanUp(self):
         GPIO.output(self.Motor1E,GPIO.LOW)

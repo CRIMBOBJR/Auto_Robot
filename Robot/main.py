@@ -1,12 +1,40 @@
-# import firebase_admin
-# from firebase_admin import credentials
-# from firebase_admin import firestore
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 
-# from lib.motorCtrl import MotorControl
-# from lib.firebaseListner import FirebaseListener
-# from lib.commands import Commands
-# m = MotorControl()
+from lib.motorCtrl import MotorControl
+from lib.firebaseListner import FirebaseListener
+from lib.commands import Commands
+m = MotorControl()
 
+################# Voice command code  ###################
+def setup(): 
+    cred = credentials.Certificate('./lib/Key.json')
+    firebase_admin.initialize_app(cred)
+
+    fbl = FirebaseListener(firestore.client())
+    fbl.BackListener() #Listening for alexa back command
+    fbl.ForwardListener() #Listening for alexa forward command
+    fbl.LeftListener() #Listening for alexa left command
+    fbl.RightListener() #Listening for alexa right command
+   
+    c = Commands(firestore.client())
+    c.Routine_1()
+    c.Routine_2()
+def destroy(): 
+    m = MotorControl()
+    m.MotorCleanUp()
+    print("clean up")
+
+if __name__ == '__main__':
+    setup()
+    try:
+        print("running...")
+        t=input("Press any button to exit")
+    except KeyboardInterrupt:
+        destroy()
+
+############   Automated navigation test   ################
 from random import *
 
 from lib.navigation import Navigate
@@ -34,29 +62,3 @@ west = SensorObj("west", randint(1, 220))
 
 n.update(dirMoving, north, south, east, west, 15)
 print(n.determine().direction)
-
-# def setup(): 
-#     cred = credentials.Certificate('./lib/Key.json')
-#     firebase_admin.initialize_app(cred)
-
-#     fbl = FirebaseListener(firestore.client())
-#     fbl.BackListener()
-#     fbl.ForwardListener()
-#     fbl.LeftListener()
-#     fbl.RightListener()
-   
-#     c = Commands(firestore.client())
-#     c.Routine_1()
-#     c.Routine_2()
-# def destroy(): 
-#     m = MotorControl()
-#     m.MotorCleanUp()
-#     print("clean up")
-
-# if __name__ == '__main__':
-#     setup()
-#     try:
-#         print("running...")
-#         t=input("Press any button to exit")
-#     except KeyboardInterrupt:
-#         destroy()

@@ -1,3 +1,7 @@
+# This is where we keep all the code that continuosly 
+# looks at Firebase to see if there are any changes. 
+# Then once it sees a change in Firebase it will call 
+# on the corresponding motor function. 
 
 from lib.motorCtrl import MotorControl
 
@@ -6,19 +10,26 @@ class FirebaseListener:
         self.db = db
         self.motor = MotorControl()
 
-        
+    # This is the function that watches the collection of 
+    # datapoints that corresponds to the forward function.
     def ForwardListener(self):
         doc_ref = self.db.collection(u'Motor').document(u'Forward')
         doc_watch = doc_ref.on_snapshot(self.on_snapshot)
 
+    # This is the function that watches the collection of 
+    # datapoints that corresponds to the backward function.
     def BackListener(self):
         doc_ref = self.db.collection(u'Motor').document(u'Backward')
         doc_watch = doc_ref.on_snapshot(self.on_snapshot)
 
+    # This is the function that watches the collection of 
+    # datapoints that corresponds to the right function. 
     def RightListener(self):
         doc_ref = self.db.collection(u'Motor').document(u'Right')
         doc_watch = doc_ref.on_snapshot(self.on_snapshot)
 
+    # This is the function that watches the collection of 
+    # datapoints that corresponds to the left function.
     def LeftListener(self):
         doc_ref = self.db.collection(u'Motor').document(u'Left')
         doc_watch = doc_ref.on_snapshot(self.on_snapshot)
@@ -33,7 +44,8 @@ class FirebaseListener:
 
             
 
-
+            # This is the function that calls on the left motor function 
+            # after is the function above sees a change in the left data points. 
             if doc.id == 'Left':
                 print("Left : " + isOnStr)
                 if isOn is True:
@@ -43,6 +55,8 @@ class FirebaseListener:
                         u'driveFor': 1
                     })
 
+            # This is the function that calls on the right motor function 
+            # after is the function above sees a change in the right data points.
             elif doc.id == 'Right':
                 print("Right : " + isOnStr)
                 if isOn is True:
@@ -52,6 +66,8 @@ class FirebaseListener:
                         u'driveFor': 1
                     })
 
+            # This is the function that calls on the forward motor function 
+            # after is the function above sees a change in the forward data points.
             elif doc.id == 'Forward':
                 print("Forward : " + isOnStr)
                 if isOn is True:
@@ -61,6 +77,8 @@ class FirebaseListener:
                         u'driveFor': 1
                     })
 
+            # This is the function that calls on the backward motor function 
+            # after is the function above sees a change in the backward data points.
             elif doc.id == 'Backward':
                 print("Backward : " + isOnStr)
                 if isOn is True:
@@ -73,9 +91,3 @@ class FirebaseListener:
             else: 
                 print('there is nothhing')
             
-            # right = data['Right']
-            # left = data['Left']
-            # forward = data['Forward']
-            # backward = data['Backward']
-            # setup = data['Setup']
-            # print(u'Received document snapshot: {}'.format(data))
