@@ -42,8 +42,6 @@ class FirebaseListener:
             isOn = data['isOn']
             driveFor = data['driveFor']
 
-            
-
             # This is the function that calls on the left motor function 
             # after is the function above sees a change in the left data points. 
             if doc.id == 'Left':
